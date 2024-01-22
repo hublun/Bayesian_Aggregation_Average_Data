@@ -277,6 +277,7 @@ functions {
       } else {
 	// run integrate_ode until we find the next dose or the end of the record
 	real res[Nnext[i] + 1,1];
+  //================ run ode_integration ====================================
 	res = integrate_ode_rk45(drug_disease_stim_kinL_Et_ode,
                                   state_g, time[i-1],
                                   segment(time, i, Nnext[i] + 1),
@@ -356,6 +357,8 @@ functions {
   real    inv_valogit(real   tva) { return(100.*inv_logit(tva)); }
   vector Vinv_valogit(vector tva) { return(100.*inv_logit(tva)); }
 
+
+//-----------------------------------------------------------------------------------------
   // evaluate model for a given drug (given via EC50+Emax) and pbo
   vector evaluate_model(int use_ode,
                         int[] id, int[] M, int[] pbo, int[] grp, vector age, real[] time,
@@ -471,7 +474,7 @@ functions {
     
     return(ypred);
   }
-
+//-----------------------------------------------------------------------------------------------------------
   // numerically robust covariance estimate with given column means
   matrix robust_cov(matrix y, vector y_col_means) {
     matrix[cols(y),cols(y)] cov;
@@ -847,7 +850,7 @@ transformed parameters {
   sigma_y_pbo = exp(phi[8+B+4]);
 }
 model {
-  
+
   vector[N] ypred;
   vector[Ot] ypred_obs_trt;
   vector[Op] ypred_obs_pbo;
