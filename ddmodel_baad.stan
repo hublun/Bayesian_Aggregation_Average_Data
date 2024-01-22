@@ -197,7 +197,7 @@ functions {
     return(lconcT);
   }
   
-
+#---------------------- ODE DDM ------------------------------
   real[] drug_disease_stim_kinL_Et_ode(real t,
                                        real[] y,
                                        real[] theta,
@@ -250,7 +250,7 @@ functions {
     
     return dydt;
   }
-
+#--------------------------------------------------------------------
   vector drug_disease_stim_kinL_Et(real[] time,
                                    real g0,          
 				   data matrix lconc,
@@ -330,7 +330,7 @@ functions {
       real emax_next;
       emax_next = emax_0 * (r180 + (1 - r180) * exp(-beta * time[i] / 30.));
       if(time[i-1] == time[i]) {
-	gv[i] = gv[i-1];
+	    gv[i] = gv[i-1];
       } else {
         // calculate the time-changing constant between current and
         // the next time-point where we want the solution; we then
@@ -348,7 +348,7 @@ functions {
     }
     return gv;
   }
-
+#=================================================================================
   // transform BCVA into transformed BCVA
   real    valogit(real va)   { return( logit(va/100.) ); }
   vector Vvalogit(vector va) { return( logit(va/100.) ); }
@@ -615,7 +615,10 @@ functions {
     }
     return count;
   }
-}
+} // end of functions section
+
+// input data
+
 data {
   int<lower=1> N;
   int<lower=0> B;
@@ -804,6 +807,7 @@ parameters {
   vector[J] xi_lEmax_s;
   vector[K] delta;
 }
+
 transformed parameters {
   vector[K_phi] phi;
   real ldva_m;
@@ -843,6 +847,7 @@ transformed parameters {
   sigma_y_pbo = exp(phi[8+B+4]);
 }
 model {
+  
   vector[N] ypred;
   vector[Ot] ypred_obs_trt;
   vector[Op] ypred_obs_pbo;
