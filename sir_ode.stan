@@ -4,9 +4,9 @@ functions {
   //---------------------------------------------  
       vector sir(   real t, 
                 vector y, 
-                real[] theta, 
-                real[] x_r, 
-                int[] x_i
+                vector theta, 
+                array[] real x_r, 
+                array[] int x_i
             ) {
 
       vector[3] dy_dt;
@@ -32,9 +32,9 @@ data {
   int<lower=1> n_days;
   vector[3] y0;
   real t0;
-  real ts[n_days];
+  array[n_days] real ts;
   int N;
-  int cases[n_days];
+  array[n_days] int cases;
 }
 
 transformed data {
@@ -53,7 +53,7 @@ transformed parameters{
   matrix[n_days, 3] y_matrix;
   real phi = 1. / phi_inv;
   {
-    real theta[2];
+    vector[2] theta;
     theta[1] = beta;
     theta[2] = gamma;
 
