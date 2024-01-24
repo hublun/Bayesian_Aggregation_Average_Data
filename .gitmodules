@@ -1,0 +1,6 @@
+[submodule "stancon_talks"]
+	path = stancon_talks
+	url = https://github.com/stan-dev/stancon_talks
+[submodule "stancon2023"]
+	path = stancon2023
+	url = https://github.com/stan-dev/stancon2023
