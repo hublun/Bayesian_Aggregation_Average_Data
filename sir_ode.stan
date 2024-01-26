@@ -35,6 +35,7 @@ data {
   array[n_days] real ts;
   int N;
   array[n_days] int cases;
+  int compute_likelihood;
 }
 
 transformed data {
@@ -73,7 +74,8 @@ model {
   
   //sampling distribution
   //col(matrix x, int n) - The n-th column of matrix x. Here the number of infected people
-  cases ~ neg_binomial_2( col(y_matrix,2), phi);
+  if (compute_likelihood == 1)
+    cases ~ neg_binomial_2( col(y_matrix,2), phi);
 }
 
 generated quantities {
