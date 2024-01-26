@@ -4,3 +4,12 @@
 [submodule "stancon2023"]
 	path = stancon2023
 	url = https://github.com/stan-dev/stancon2023
+[submodule "gpt-tutorial"]
+	path = gpt-tutorial
+	url = https://github.com/bayesianops/gpt-tutorial
+[submodule "torsten_tutorial_1_supplementary"]
+	path = torsten_tutorial_1_supplementary
+	url = https://github.com/metrumresearchgroup/torsten_tutorial_1_supplementary
+[submodule "BayesPBPK-tutorial"]
+	path = BayesPBPK-tutorial
+	url = https://github.com/metrumresearchgroup/BayesPBPK-tutorial
