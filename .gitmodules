@@ -13,3 +13,6 @@
 [submodule "BayesPBPK-tutorial"]
 	path = BayesPBPK-tutorial
 	url = https://github.com/metrumresearchgroup/BayesPBPK-tutorial
+[submodule "disease_transmission_workflow"]
+	path = disease_transmission_workflow
+	url = https://github.com/charlesm93/disease_transmission_workflow
