@@ -637,11 +637,11 @@ data {
   vector<lower=0, upper=150>[N] age;
   int<lower=0> grp[N];
 
-  int<lower=0, upper=1> pbo[N];
+  int<lower=0, upper=1> pbo[N];  // placebo indicator
 
   real<lower=0> hill;
 
-  int<lower=0, upper=1> use_ode;
+  int<lower=0, upper=1> use_ode; // whether or not to use ode integrator
   int<lower=0, upper=1> calc_ipred;
 
   int<lower=1> K_phi;              // #parameters in phi

@@ -38,7 +38,7 @@ r0 <- 0
 y0 = c(S = s0, I = i0, R = r0) # initial state
 
 #---------------------------------------------------------------------------------------------------------
-sir_model <- stan_model("./disease_transmission_workflow/stan_models/models_swiss/seir_ode.stan")
+seir_model <- stan_model("./disease_transmission_workflow/stan_models/models_swiss/seir_ode_informative.stan")
 #---------------------------------------------------------------------------------------------------------
 cases <- df_swiss$report_dt
 
@@ -50,13 +50,13 @@ ts <- t
 
 data_seir <- list(n_days = n_days, t0 = t0, ts = ts, N = N, cases = cases)
 #-----------------------------------------------------------------------------
-fit_seir <- sampling(sir_model, 
+fit_seir <- sampling(seir_model, 
                     data_seir, 
                     iter=1000,
                     seed = 0)
 #-----------------------------------------------------------------------------
 check_hmc_diagnostics(fit_sir)
-pars = c("beta", "gamma", "phi", "alpha", "p_rep", "lp__")
+pars = c("beta", "gamma", "phi", "alpha", "alpha_inv", "p_rep", "lp__")
 summary(fit_sir, pars=pars)
 traceplot(fit_sir, pars=pars)
 #----------------------------------------------------------------------------------------------------------------------------------
@@ -90,3 +90,9 @@ fit_seir %>%
   geom_point(mapping = aes(y=cases), size=0.1)+
   facet_wrap(~.chain)
 #-----------------------------------------------------------------------------------------------------------------------------------------------
+fit_seir %>% 
+  spread_draws(alpha) %>% 
+  filter(.chain == 2) %>% 
+  ggplot() +
+  geom_histogram(mapping = aes(x = alpha), fill=c_posterior, color=c_dark)
+#-------------------------------------------------------------------------
