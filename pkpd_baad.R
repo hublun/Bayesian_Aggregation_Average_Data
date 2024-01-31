@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-library(rstan)
+#library(rstan)
 library(methods)
 library(reshape2)
 library(ggplot2)
@@ -9,12 +9,12 @@ library(functional)
 library(abind)
 source("utils_baad.R")
 
-options(rcpp.cache.dir="./rcpp-cache")
-rstan_options(auto_write = TRUE)
+#options(rcpp.cache.dir="./rcpp-cache")
+#rstan_options(auto_write = TRUE)
 
-theme_set(theme_bw() + theme(panel.grid.major=element_line(colour="grey80")))
+#theme_set(theme_bw() + theme(panel.grid.major=element_line(colour="grey80")))
 
-set.seed(24234)
+#set.seed(24234)
 
 ## choose whatever is appropiate for your computing environment
 ## useful on laptop
@@ -22,23 +22,23 @@ set.seed(24234)
 ## needed on cluster
 cores <- as.numeric(Sys.getenv("NSLOTS"))
 
-if(is.na(cores))
-    cores <- 4
+#if(is.na(cores))
+#    cores <- 4
 
-options(mc.cores = cores)
+#options(mc.cores = cores)
 
 ## programs must be run with more than one chain to make the automatic
 ## definition of CHAIN_ID work when calling stan
-if(cores == 1)
-    stop("Program must run with more than 1 chain!")
+#if(cores == 1)
+#    stop("Program must run with more than 1 chain!")
 
-cat("Using", cores, "CPU cores\n")
+#cat("Using", cores, "CPU cores\n")
 
-expose_stan_functions("pkpd_mvn_approxb.stan")
+expose_stan_functions("pkpd_mvn_approxb.stan") # rstan function to test functions in stan model
 
-chains <- 4
-iter <- 5000
-warmup <- iter/2
+#chains <- 4
+#iter <- 5000
+#warmup <- iter/2
 
 # define true parameters
 Lalpha_0 <- valogit(0.5)

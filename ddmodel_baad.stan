@@ -9,7 +9,7 @@ functions {
     }
     return(U);
   }
-  
+  //---------------------------------------
   int[] rle_int(int[] set) {
     int res[rle_elem_count(set)];
     int c;
@@ -26,7 +26,7 @@ functions {
     return(res);
   }
 
-  // count number times elem appears in test set
+  /*/ count number times elem appears in test set
   int count_elem(int[] test, int elem) {
     int count;
     count = 0;
@@ -34,7 +34,7 @@ functions {
       if(test[i] == elem)
 	count = count + 1;
     return(count);
-  }
+  } */
   
   // count number times elems appears in test set
   int[] count_elems(int[] test, int[] elems) {
@@ -139,7 +139,7 @@ functions {
     }
     return(Nnext);
   }
-  
+  //-------------------------------------------------------------------------------
   matrix prepare_pk(int[] id, int[] evid, int[] drug, real[] amt, real[] time) {
     vector[2] k_e;
     vector[2] kDa;
