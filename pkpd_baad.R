@@ -34,41 +34,41 @@ cores <- as.numeric(Sys.getenv("NSLOTS"))
 
 #cat("Using", cores, "CPU cores\n")
 
-expose_stan_functions("pkpd_mvn_approxb.stan") # rstan function to test functions in stan model
+#expose_stan_functions("pkpd_mvn_approxb.stan") # rstan function to test functions in stan model
 
 #chains <- 4
 #iter <- 5000
 #warmup <- iter/2
 
 # define true parameters
-Lalpha_0 <- valogit(0.5)
+# Lalpha_0 <- valogit(0.5)
 
-Lalpha_s <- valogit(0.35)
-lkappa   <- log(10/52)
-lEmax    <- log(valogit(0.60) - Lalpha_s)
+# Lalpha_s <- valogit(0.35)
+# lkappa   <- log(10/52)
+# lEmax    <- log(valogit(0.60) - Lalpha_s)
 
-sigma_Lalpha_0 <- 0.2
-sigma_lkappa   <- 0.5
+# sigma_Lalpha_0 <- 0.2
+# sigma_lkappa   <- 0.5
 
-sigma_y <- 5/100
+# sigma_y <- 5/100
 
 ## from the first group the first half is placebo, the rest is on
 ## treatment 1
-J <- 100
+# J <- 100
 
-J_prime <- 100
+# J_prime <- 100
 
-## let's say we cover a year and measure monthly
-x <- seq(0, 52, length=13) / 52
-T <- 13
+# ## let's say we cover a year and measure monthly
+# x <- seq(0, 52, length=13) / 52
+# T <- 13
 
 ## for simplicity assume the prime data set is at the same time-points
-x_prime <- seq(0, 52, length=13) / 52
-T_prime <- 13
+# x_prime <- seq(0, 52, length=13) / 52
+# T_prime <- 13
 
 ## number of simulations per draw of the posterior to get
 ## approximated log-lik weight
-J_tilde <- 500
+#J_tilde <- 500
 
 ## define weakly-informative prior
 ## phi is ordered as:
@@ -79,20 +79,20 @@ J_tilde <- 500
 ##  phi[5] = log(sigma_Lalpha_0);
 ##  phi[6] = log(sigma_lkappa);
 ##  phi[7] = log(sigma_y);
-mu_phi_p <- c(0, -1, log(1/4), log(0.5), 0, 0, 0)
-K_phi <- length(mu_phi_p)
-Sigma_phi_p <- diag(c(2, 2, log(2), log(2), 1, 1, 1)^2)
+#mu_phi_p <- c(0, -1, log(1/4), log(0.5), 0, 0, 0)
+# K_phi <- length(mu_phi_p)
+# Sigma_phi_p <- diag(c(2, 2, log(2), log(2), 1, 1, 1)^2)
 
-K <- 1
-delta <- array(0.1, dim=1)
+# K <- 1
+# delta <- array(0.1, dim=1)
 
-mu_delta_p <- array(0, dim=1)
-Sigma_delta_p <- matrix(1^2)
+# mu_delta_p <- array(0, dim=1)
+# Sigma_delta_p <- matrix(1^2)
 
-## simulated asymptotic values for each group
-inv_valogit(Lalpha_s) ## placebo t=inf
-inv_valogit(Lalpha_s + exp(lEmax)) ## drug=1 t=inf
-inv_valogit(Lalpha_s + exp(lEmax + delta)) ## drug=2 t=inf
+# ## simulated asymptotic values for each group
+# inv_valogit(Lalpha_s) ## placebo t=inf
+# inv_valogit(Lalpha_s + exp(lEmax)) ## drug=1 t=inf
+# inv_valogit(Lalpha_s + exp(lEmax + delta)) ## drug=2 t=inf
 
 
 ## simulate patient specific parameters
