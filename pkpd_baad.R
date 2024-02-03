@@ -96,49 +96,49 @@ cores <- as.numeric(Sys.getenv("NSLOTS"))
 
 
 ## simulate patient specific parameters
-J_tot <- J + J_prime
-subj_tot <- data.frame(id=1:J_tot
-                      ,prime=rep(c(0,1), times=c(J, J_prime))
-                      ,DRUG=0
-                      ,eta_Lalpha_0=rnorm(J_tot, 0, 1)
-                      ,eta_lkappa =rnorm(J_tot, 0, 1)
-                   )
+# J_tot <- J + J_prime
+# subj_tot <- data.frame(id=1:J_tot
+#                       ,prime=rep(c(0,1), times=c(J, J_prime))
+#                       ,DRUG=0
+#                       ,eta_Lalpha_0=rnorm(J_tot, 0, 1)
+#                       ,eta_lkappa =rnorm(J_tot, 0, 1)
+#                    )
 
-subj_tot$DRUG[(J/2+1):J] <- 1
-subj_tot$DRUG[(J+1):J_tot] <- 2
+# subj_tot$DRUG[(J/2+1):J] <- 1
+# subj_tot$DRUG[(J+1):J_tot] <- 2
 
-subj       <- subset(subj_tot, prime==0)
-subj_prime <- subset(subj_tot, prime==1)
+# subj       <- subset(subj_tot, prime==0)
+# subj_prime <- subset(subj_tot, prime==1)
 
-pstream__ <- get_stream()
-ysim       <- sim_posterior(subj, evaluate_model, TRUE)
-ysim_prime <- sim_posterior(subj_prime, evaluate_model, TRUE)
+# pstream__ <- get_stream()
+# ysim       <- sim_posterior(subj, evaluate_model, TRUE)
+# ysim_prime <- sim_posterior(subj_prime, evaluate_model, TRUE)
 
-dimnames(ysim) <- list(id=1:J, k=1:T)
-dimnames(ysim_prime) <- list(id=(1+J):J_tot, k=1:T_prime)
+# dimnames(ysim) <- list(id=1:J, k=1:T)
+# dimnames(ysim_prime) <- list(id=(1+J):J_tot, k=1:T_prime)
 
-M <- arrange(melt(ysim), id, k)
-Mp <- arrange(melt(ysim_prime), id, k)
-M$x <- x[M$k]
-Mp$x<- x_prime[Mp$k]
+# M <- arrange(melt(ysim), id, k)
+# Mp <- arrange(melt(ysim_prime), id, k)
+# M$x <- x[M$k]
+# Mp$x<- x_prime[Mp$k]
 
-M <- merge(rbind(M,Mp), subj_tot, by="id")
+# M <- merge(rbind(M,Mp), subj_tot, by="id")
 
-## look at the simulated means
-plm <- ggplot(M, aes(x, value, group=id, colour=factor(DRUG))) +
-    geom_line(alpha=0.3) +
-        stat_summary(aes(group=DRUG), fun.data = "mean_cl_boot", position=position_dodge(width=0.02))
+# ## look at the simulated means
+# plm <- ggplot(M, aes(x, value, group=id, colour=factor(DRUG))) +
+#     geom_line(alpha=0.3) +
+#         stat_summary(aes(group=DRUG), fun.data = "mean_cl_boot", position=position_dodge(width=0.02))
 
 
 ## create noise which we recycle for all of the different delta
 ## simulations
-y_err       <- matrix(rnorm(J*T,             0, sigma_y), J,       T)
-y_prime_err <- matrix(rnorm(J_prime*T_prime, 0, sigma_y), J_prime, T_prime)
-y           <- ysim       + y_err
+# y_err       <- matrix(rnorm(J*T,             0, sigma_y), J,       T)
+# y_prime_err <- matrix(rnorm(J_prime*T_prime, 0, sigma_y), J_prime, T_prime)
+# y           <- ysim       + y_err
 
-y_prime <- ysim_prime + y_prime_err
+# y_prime <- ysim_prime + y_prime_err
 
-y_prime_bar <- colMeans(y_prime)
+# y_prime_bar <- colMeans(y_prime)
 
 ## plot the simulated data (not just the means)
 

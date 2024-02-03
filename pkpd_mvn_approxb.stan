@@ -1,40 +1,40 @@
 functions {
 
   // transform VA into transformed VA
-  real valogit(real va)      { return( logit(va) );      }
+  // real valogit(real va)      { return( logit(va) );      }
   // inverse transformed to original
-  real inv_valogit(real tva) { return(inv_logit(tva));  }
+  // real inv_valogit(real tva) { return(inv_logit(tva));  }
 
   // takes sampling parameters and produces model prediction for all
   // patients
-  matrix evaluate_model(vector x, int[] DRUG,
-			real Lalpha_0, real Lalpha_s, real lkappa,
-                        real lEmax, real delta,
-                        vector eta_Lalpha_0, vector eta_lkappa,
-                        real sigma_Lalpha_0, real sigma_lkappa) {
-    int J = num_elements(eta_Lalpha_0);
-    int T = num_elements(x);
-    vector[J] Lalpha_0_j = Lalpha_0 + sigma_Lalpha_0 * eta_Lalpha_0;
-    vector[J] lkappa_j   = lkappa   + sigma_lkappa * eta_lkappa;
-    matrix[J,T] mu;
-    vector[3] Emax_s;
+  // matrix evaluate_model(vector x, int[] DRUG,
+	// 		real Lalpha_0, real Lalpha_s, real lkappa,
+  //                       real lEmax, real delta,
+  //                       vector eta_Lalpha_0, vector eta_lkappa,
+  //                       real sigma_Lalpha_0, real sigma_lkappa) {
+  //   int J = num_elements(eta_Lalpha_0);
+  //   int T = num_elements(x);
+  //   vector[J] Lalpha_0_j = Lalpha_0 + sigma_Lalpha_0 * eta_Lalpha_0;
+  //   vector[J] lkappa_j   = lkappa   + sigma_lkappa * eta_lkappa;
+  //   matrix[J,T] mu;
+  //   vector[3] Emax_s;
     
-    Emax_s[1] = 0.;
-    Emax_s[2] = exp(lEmax);
-    Emax_s[3] = exp(lEmax + delta);
+  //   Emax_s[1] = 0.;
+  //   Emax_s[2] = exp(lEmax);
+  //   Emax_s[3] = exp(lEmax + delta);
     
-    // a + (b-a) * exp(-kout*x) = a * (1 - exp(-kout*x)) + b * exp(-kout*x)
-    for(j in 1:J) {
-      real kout;
-      real Lalpha_s_j;
-      kout = exp(-lkappa_j[j]);
-      Lalpha_s_j = Lalpha_s + Emax_s[DRUG[j]+1];
-      for(k in 1:T)
-        mu[j,k] = inv_valogit(Lalpha_s_j + (Lalpha_0_j[j]-Lalpha_s_j) * exp(-kout * x[k]));
-    }
+  //   // a + (b-a) * exp(-kout*x) = a * (1 - exp(-kout*x)) + b * exp(-kout*x)
+  //   for(j in 1:J) {
+  //     real kout;
+  //     real Lalpha_s_j;
+  //     kout = exp(-lkappa_j[j]);
+  //     Lalpha_s_j = Lalpha_s + Emax_s[DRUG[j]+1];
+  //     for(k in 1:T)
+  //       mu[j,k] = inv_valogit(Lalpha_s_j + (Lalpha_0_j[j]-Lalpha_s_j) * exp(-kout * x[k]));
+  //   }
 
-    return(mu);
-  }
+  //   return(mu);
+  // }
 
   void pretty_print(matrix x) {
     if (rows(x) == 0) {

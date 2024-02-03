@@ -19,28 +19,28 @@ extract_draw <- function(sims, draw) lapply(sims, asub, idx=draw, dim=1)
 ## to the function are automatically deduced from it's formals and
 ## that all arguments which are not in the sims list are searched in
 ## the global environment.
-sim_posterior <- function(sims, fun, vectorized=FALSE, res_type, envir) {
-    args <- setdiff(names(formals(fun)), "seed")
+# sim_posterior <- function(sims, fun, vectorized=FALSE, res_type, envir) {
+#     args <- setdiff(names(formals(fun)), "seed")
 
-    from_draw <- intersect(args, names(sims))
-    from_env  <- setdiff(args, names(sims))
+#     from_draw <- intersect(args, names(sims))
+#     from_env  <- setdiff(args, names(sims))
 
-    if (missing(envir))
-        envir <- parent.frame()
+#     if (missing(envir))
+#         envir <- parent.frame()
 
-    sims <- sims[from_draw]
-    aux <- mget(from_env, envir=envir)
+#     sims <- sims[from_draw]
+#     aux <- mget(from_env, envir=envir)
 
-    if(!vectorized) {
-        S <- NROW(sims[[1]])
-        calc_draw <- function(i) do.call(fun, c(aux, extract_draw(sims, i)))
-        if(missing(res_type))
-            res_type <- calc_draw(1)
-        return(t(vapply(1:S, calc_draw, res_type)))
-    } else {
-        return(do.call(fun, c(sims, aux)))
-    }
-}
+#     if(!vectorized) {
+#         S <- NROW(sims[[1]])
+#         calc_draw <- function(i) do.call(fun, c(aux, extract_draw(sims, i)))
+#         if(missing(res_type))
+#             res_type <- calc_draw(1)
+#         return(t(vapply(1:S, calc_draw, res_type)))
+#     } else {
+#         return(do.call(fun, c(sims, aux)))
+#     }
+# }
 
 
 relabel <- function(x) match(x, unique(x))
