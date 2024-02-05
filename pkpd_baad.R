@@ -142,59 +142,59 @@ cores <- as.numeric(Sys.getenv("NSLOTS"))
 
 ## plot the simulated data (not just the means)
 
-M_obs <- arrange(melt(y), id, k)
-Mp_obs <- arrange(melt(y_prime), id, k)
-M_obs$x <- x[M_obs$k]
-Mp_obs$x<- x_prime[Mp_obs$k]
+# M_obs <- arrange(melt(y), id, k)
+# Mp_obs <- arrange(melt(y_prime), id, k)
+# M_obs$x <- x[M_obs$k]
+# Mp_obs$x<- x_prime[Mp_obs$k]
 
-M_obs <- merge(rbind(M_obs,Mp_obs), subj_tot, by="id")
+# M_obs <- merge(rbind(M_obs,Mp_obs), subj_tot, by="id")
 
-color_scale <- scale_colour_brewer(type="qual", palette=2)
+# color_scale <- scale_colour_brewer(type="qual", palette=2)
 
-M_obs <- transform(M_obs,
-                   Data=factor(prime, levels=c(0,1), labels=c("Internal", "External")),
-                   Treatment=factor(DRUG, levels=0:2, labels=c("Placebo", "Treatment 1", "Treatment 2"))
-                   )
+# M_obs <- transform(M_obs,
+#                    Data=factor(prime, levels=c(0,1), labels=c("Internal", "External")),
+#                    Treatment=factor(DRUG, levels=0:2, labels=c("Placebo", "Treatment 1", "Treatment 2"))
+#                    )
 
-M_obs_aggr <- ddply(M_obs, .(Data, Treatment, x), plyr::summarize, value=mean(value))
+# M_obs_aggr <- ddply(M_obs, .(Data, Treatment, x), plyr::summarize, value=mean(value))
 
-pl_obs <- ggplot(M_obs, aes(x, value, colour=Treatment)) +
-    geom_line(alpha=0.4, aes(group=id)) + facet_grid(.~Data, labeller=label_both, drop=FALSE) +
-        coord_cartesian(ylim=c(0.25,0.725)) + xlab("Time") +  ylab("Response") +
-            ##stat_summary(aes(group=DRUG), fun.data = "mean_cl_boot", position=position_dodge(width=0.02)) +
-                theme(legend.position=c(0.85, 0.25)) + color_scale
+# pl_obs <- ggplot(M_obs, aes(x, value, colour=Treatment)) +
+#     geom_line(alpha=0.4, aes(group=id)) + facet_grid(.~Data, labeller=label_both, drop=FALSE) +
+#         coord_cartesian(ylim=c(0.25,0.725)) + xlab("Time") +  ylab("Response") +
+#             ##stat_summary(aes(group=DRUG), fun.data = "mean_cl_boot", position=position_dodge(width=0.02)) +
+#                 theme(legend.position=c(0.85, 0.25)) + color_scale
 
-pl_obs
+# pl_obs
 
-pl_reported <- pl_obs %+% subset(M_obs, prime==0) + geom_point(data=subset(M_obs_aggr, Data=="External"), size=I(4)) + geom_line(data=subset(M_obs_aggr, Data=="External"), size=I(1.5))
+# pl_reported <- pl_obs %+% subset(M_obs, prime==0) + geom_point(data=subset(M_obs_aggr, Data=="External"), size=I(4)) + geom_line(data=subset(M_obs_aggr, Data=="External"), size=I(1.5))
 
-pl_reported
+# pl_reported
 
-pl_local <- pl_obs %+% subset(M_obs, prime==0)
+# pl_local <- pl_obs %+% subset(M_obs, prime==0)
 
-pl_local
+# pl_local
 
-ggsave("pkpd_simulated.png", pl_obs, width=7, height=3)
-ggsave("pkpd_reported.png", pl_reported, width=7, height=3)
-ggsave("pkpd_local.png", pl_local, width=7, height=3)
+# ggsave("pkpd_simulated.png", pl_obs, width=7, height=3)
+# ggsave("pkpd_reported.png", pl_reported, width=7, height=3)
+# ggsave("pkpd_local.png", pl_local, width=7, height=3)
 
 model <- stan_model("pkpd_mvn_approxb.stan")
 
 ## needed for new approach below
-C <- 4 ## max # of chains
-xi <- array(rnorm(C*2* 2*J_tilde), dim=c(C, 2, 2*J_tilde))
+# C <- 4 ## max # of chains
+# xi <- array(rnorm(C*2* 2*J_tilde), dim=c(C, 2, 2*J_tilde))
 
-DRUG <- subj_tot$DRUG
-DRUG_prime <- 2
+# DRUG <- subj_tot$DRUG
+# DRUG_prime <- 2
 
 ## First profile the noisiness of the MVN approximation wrt to
 ## information about delta
 
-S <- 51
-delta_eval <- cbind(delta_1=seq(0,0.4,length=S))
+# S <- 51
+# delta_eval <- cbind(delta_1=seq(0,0.4,length=S))
 
-R <- 1e3
-delta_quants <- sim_delta(J_tilde=100, R, delta_eval)
+# R <- 1e3
+# delta_quants <- sim_delta(J_tilde=100, R, delta_eval)
 
 delta_quants <- cbind(delta_quants, as.data.frame(delta_eval))
 
