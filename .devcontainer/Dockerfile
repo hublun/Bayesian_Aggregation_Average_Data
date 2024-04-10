@@ -1,10 +1,10 @@
 # R 4.0.0
 FROM drclab/rstan:2.32.6 as rbase
 #--------------------------------
-RUN apt install -y docker.io \
-    && git
+RUN apt install -y docker.io
 #--------------------------------
-
+USER drclab
+#----------
 CMD ["R"]
 
 ## set MRAN install date to 20th April 2020
