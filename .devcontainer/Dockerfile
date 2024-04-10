@@ -3,7 +3,7 @@ FROM drclab/rstan:2.32.6 as rbase
 #--------------------------------
 RUN apt install -y docker.io
 #--------------------------------
-USER drclab
+
 #----------
 CMD ["R"]
 
