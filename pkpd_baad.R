@@ -9,28 +9,32 @@ library(functional)
 library(abind)
 source("utils_baad.R")
 
-#options(rcpp.cache.dir="./rcpp-cache")
-#rstan_options(auto_write = TRUE)
+options(rcpp.cache.dir="./rcpp-cache")
+rstan_options(auto_write = TRUE)
 
-#theme_set(theme_bw() + theme(panel.grid.major=element_line(colour="grey80")))
+getwd()
+setwd("~/Bayesian_Aggregation_Average_Data")
 
-#set.seed(24234)
+theme_set(theme_bw() + theme(panel.grid.major=element_line(colour="grey80")))
+
+set.seed(24234)
 
 ## choose whatever is appropiate for your computing environment
 ## useful on laptop
-##cores <- detectCores()
+cores <- detectCores()
 ## needed on cluster
+Sys.getenv("HOME")
 cores <- as.numeric(Sys.getenv("NSLOTS"))
 
-#if(is.na(cores))
-#    cores <- 4
+if(is.na(cores))
+    cores <- 4
 
-#options(mc.cores = cores)
+options(mc.cores = cores)
 
 ## programs must be run with more than one chain to make the automatic
 ## definition of CHAIN_ID work when calling stan
-#if(cores == 1)
-#    stop("Program must run with more than 1 chain!")
+if(cores == 1)
+    stop("Program must run with more than 1 chain!")
 
 #cat("Using", cores, "CPU cores\n")
 
