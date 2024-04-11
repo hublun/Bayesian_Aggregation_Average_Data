@@ -1,5 +1,5 @@
 # R 4.0.0
-FROM drclab/rstan:2.32.6 as rbase
+FROM drclab/drupyter:5.7.2 as drubase
 #--------------------------------
 RUN apt install -y docker.io
 #--------------------------------
