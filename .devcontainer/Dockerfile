@@ -3,7 +3,7 @@ FROM drclab/drupyter:5.7.2 as drubase
 #--------------------------------
 RUN apt install -y docker.io
 #--------------------------------
-
+USER drclab
 #----------
 CMD ["R"]
 
