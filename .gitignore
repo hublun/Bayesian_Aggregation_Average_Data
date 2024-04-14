@@ -1,2 +1,7 @@
 torsten_tutorial_1_supplementary
 *.rds
+*.csv
+.vscode/settings.json
+coursera/noaa-weather-sample-data/
+
+coursera/._noaa-weather-sample-data
